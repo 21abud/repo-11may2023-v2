@@ -1,0 +1,18 @@
+[
+    {
+        "nama": "tes",
+        "kelamin": "laki",
+        "email": "tes@tes",
+        "alamat": "tesalamat",
+        "program": "Junior Web Developer",
+        "tahun": "2000"
+    },
+    {
+        "nama": "tes2",
+        "kelamin": "cewe",
+        "email": "tes2@tes",
+        "alamat": "tes2alamat",
+        "program": "Desainer Multimedia Muda",
+        "tahun": "2023"
+    }
+]

@@ -26,6 +26,20 @@
                                     placeholder="name@example.com" Required>
                                 <label for="fiNama">Nama</label>
                             </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                    id="flexRadioDefault1" value="laki">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    Laki
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                    id="flexRadioDefault2" value="cewe">
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    Cewe
+                                </label>
+                            </div>
                             <div class="form-floating mb-1">
                                 <input type="email" name="email" class="form-control" id="fiEmail"
                                     placeholder="name@example.com" Required>
@@ -73,6 +87,7 @@
                             <thead>
                                 <tr>
                                     <th>Nama</th>
+                                    <th>Jenis Kelamin</th>
                                     <th>Email</th>
                                     <th>Alamat</th>
                                     <th>Program Pelatihan</th>
@@ -100,18 +115,40 @@
     <!-- fungsi menggunakan jquery & ajax -->
     <script>
     $(document).ready(function() {
+        getData();
+
+        function getData() {
+            $.ajax({
+                type: "GET",
+                url: "getdata.php",
+                beforeSend: function(result) {
+                    $(".spinner-border").show();
+                },
+                success: function(result) {
+                    $(".spinner-border").hide();
+                    $("tbody").html(result);
+                    $("#myform").trigger("reset");
+                    // $("#myform")[0].reset();
+                    // $("#fiNama").val("");
+                }
+            })
+        }
+
         $("form").submit(function(xxx) {
             xxx.preventDefault();
             //ambil data dari form berdasarkan ID, simpan dalam variable baru
-            var nama= $("#fiNama").val();
-            var email= $("#fiEmail").val();
-            var alamat= $("#floatingTextarea").val();
-            var program= $("#floatingSelect").val();
-            var tahun= $("#fsTahun").val();
+            var nama = $("#fiNama").val();
+            // var kelamin = $("input[name='flexRadioDefault']:checked").val();
+            var kelamin = $(".form-check-input:checked").val();
+            var email = $("#fiEmail").val();
+            var alamat = $("#floatingTextarea").val();
+            var program = $("#floatingSelect").val();
+            var tahun = $("#fsTahun").val();
 
             //masukkan data variabel ke dalam object
             var formData = {
                 nama: nama,
+                kelamin: kelamin,
                 email: email,
                 alamat: alamat,
                 program: program,
@@ -122,15 +159,14 @@
                 type: "POST",
                 url: "proses.php",
                 data: formData,
-                beforeSend: function(result){
+                beforeSend: function(result) {
                     $(".spinner-border").show();
                 },
                 success: function(result) {
                     $(".spinner-border").hide();
                     $("tbody").append(result);
                     $("#myform").trigger("reset");
-                    // $("#myform")[0].reset();
-                    // $("#fiNama").val("");
+                    getData();
                 }
             })
         })
